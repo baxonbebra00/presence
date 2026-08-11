@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src 'self'; font-src 'self'; form-action 'none'; frame-src 'none'; img-src 'self'; manifest-src 'none'; media-src 'none'; object-src 'none'; script-src 'self'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>News — PRESENCE</title>
+<meta name="description" content="Technology, crypto, science, and company coverage sourced from Future reporting.">
+<link rel="icon" href="assets/img/presence-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html" aria-label="Presence home">
+      <img class="brand__mark" src="assets/img/presence-mark.svg" alt="">
+      <span class="brand__word">PRESENCE</span>
+    </a>
+    <nav class="nav__links" id="nav-menu" aria-label="Primary navigation">
+      <a href="news.html" aria-current="page">News</a>
+      <a href="#crypto">Crypto</a>
+      <a href="#technology">Technology</a>
+      <a href="#companies">Companies</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav__cta">
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero newsroom-hero">
+    <div class="wrap newsroom-hero__inner">
+      <div>
+        <span class="eyebrow">Future archive</span>
+        <h1>Technology and the systems shaping what comes next.</h1>
+        <p>Coverage sourced from Future reporting, organized across crypto, technology, science, and company building with original bylines and source links preserved.</p>
+      </div>
+      <dl class="newsroom-stats" aria-label="Newsroom sections">
+        <div><dt>Crypto</dt><dd data-news-count="crypto">0</dd></div>
+        <div><dt>Technology</dt><dd data-news-count="technology">0</dd></div>
+        <div><dt>Companies</dt><dd data-news-count="companies">0</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section newsroom" aria-labelledby="news-heading">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 id="news-heading">Latest stories</h2>
+        <span class="newsroom__updated">Updated as stories publish</span>
+      </div>
+
+      <div class="news-filters" aria-label="Filter news by section">
+        <button class="news-filter" id="all" type="button" data-news-filter="all" aria-pressed="true">All <span data-news-count="all">0</span></button>
+        <button class="news-filter" id="crypto" type="button" data-news-filter="crypto" aria-pressed="false">Crypto <span data-news-count="crypto">0</span></button>
+        <button class="news-filter" id="technology" type="button" data-news-filter="technology" aria-pressed="false">Technology <span data-news-count="technology">0</span></button>
+        <button class="news-filter" id="companies" type="button" data-news-filter="companies" aria-pressed="false">Companies <span data-news-count="companies">0</span></button>
+      </div>
+
+      <div class="news-grid" id="news-grid" aria-live="polite"></div>
+      <p class="news-empty" id="news-empty" hidden>No stories in this section yet.</p>
+      <noscript><p class="news-empty">Enable JavaScript to view the filterable news list.</p></noscript>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__col footer__brand">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="assets/img/presence-mark.svg" alt="">
+        <span class="brand__word">PRESENCE</span>
+      </a>
+      <p>Understand what is coming, and how it gets built.</p>
+    </div>
+    <div class="footer__col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="news.html">News</a></li>
+        <li><a href="#crypto">Crypto</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#companies">Companies</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>PRESENCE</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer__legal">
+    <span>&copy; <span data-year>2026</span> PRESENCE</span>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/news-data.js"></script>
+<script src="assets/js/news.js"></script>
+</body>
+</html>

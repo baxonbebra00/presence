@@ -1,0 +1,592 @@
+(() => {
+  "use strict";
+
+  const toggle = document.querySelector(".nav__toggle");
+  const menu = document.getElementById("nav-menu");
+  if (toggle && menu) {
+    const closeMenu = () => {
+      const wasOpen = menu.classList.contains("is-open");
+      menu.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Menu");
+      return wasOpen;
+    };
+
+    toggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Menu");
+      if (open) {
+        const firstLink = menu.querySelector("a");
+        if (firstLink && typeof firstLink.focus === "function") {
+          if (typeof window.requestAnimationFrame === "function") {
+            window.requestAnimationFrame(() => firstLink.focus());
+          } else {
+            firstLink.focus();
+          }
+        }
+      }
+    });
+
+    menu.addEventListener("click", (event) => {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && closeMenu()) toggle.focus();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) closeMenu();
+    });
+  }
+
+  const year = document.querySelector("[data-year]");
+  if (year) year.textContent = String(new Date().getFullYear());
+
+  const motionSelector = [
+    ".editorial-catalog .catalog-heading",
+    ".featured-row",
+    ".latest-column",
+    ".latest-row",
+    ".index-intro > *",
+    ".index-route",
+    ".index-principles > *",
+    ".archive-header > *",
+    ".archive-controls",
+    ".archive-row",
+    ".newsroom-hero__inner > *",
+    ".section__head > *",
+    ".news-filter",
+    ".news-card",
+    ".page-hero__inner > *",
+    ".about-grid > article",
+    ".article__cat",
+    ".article__title",
+    ".article__meta",
+    ".article__image",
+    ".article__body h2",
+    ".article__body blockquote",
+    ".article__callout",
+    ".article__matrix",
+    ".article__source",
+    ".sidebar"
+  ].join(",");
+
+  const motionRoot = document.documentElement;
+  if (
+    motionRoot?.classList &&
+    typeof document.querySelectorAll === "function"
+  ) {
+    let reduceMotion = false;
+    if (typeof window.matchMedia === "function") {
+      try {
+        reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      } catch (_error) {
+        reduceMotion = false;
+      }
+    }
+    let motionObserver = null;
+
+    if (!reduceMotion && typeof window.IntersectionObserver === "function") {
+      try {
+        motionObserver = new window.IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting && entry.intersectionRatio <= 0) return;
+            entry.target.classList.add("is-visible");
+            motionObserver?.unobserve(entry.target);
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: "0px 0px -8% 0px"
+        });
+      } catch (_error) {
+        motionObserver = null;
+      }
+    }
+
+    const registerMotionTargets = () => {
+      let delay = 0;
+      document.querySelectorAll(motionSelector).forEach((element) => {
+        if (!element.classList || element.classList.contains("motion-target")) return;
+        element.classList.add("motion-target", `motion-delay-${delay % 6}`);
+        delay += 1;
+        if (!motionObserver) {
+          element.classList.add("is-visible");
+          return;
+        }
+        try {
+          motionObserver.observe(element);
+        } catch (_error) {
+          element.classList.add("is-visible");
+        }
+      });
+    };
+
+    motionRoot.classList.add("motion-ready");
+    registerMotionTargets();
+
+    if (typeof window.MutationObserver === "function") {
+      let motionFrame = null;
+      try {
+        new window.MutationObserver(() => {
+          if (motionFrame !== null) return;
+          if (typeof window.requestAnimationFrame !== "function") {
+            registerMotionTargets();
+            return;
+          }
+          motionFrame = window.requestAnimationFrame(() => {
+            motionFrame = null;
+            registerMotionTargets();
+          });
+        }).observe(document.body, { childList: true, subtree: true });
+      } catch (_error) {
+        registerMotionTargets();
+      }
+    }
+  }
+
+  const readingArticle = document.querySelector("main.article-layout > article");
+  if (readingArticle) {
+    const readingProgress = document.createElement("div");
+    readingProgress.className = "reading-progress";
+
+    const readingProgressBar = document.createElement("progress");
+    readingProgressBar.className = "reading-progress__meter";
+    readingProgressBar.max = 100;
+    readingProgressBar.value = 0;
+    readingProgressBar.setAttribute("role", "progressbar");
+    readingProgressBar.setAttribute("aria-label", "Article reading progress");
+    readingProgressBar.setAttribute("aria-valuemin", "0");
+    readingProgressBar.setAttribute("aria-valuemax", "100");
+    readingProgressBar.setAttribute("aria-valuenow", "0");
+    readingProgressBar.setAttribute("aria-valuetext", "0% read");
+
+    const readingProgressValue = document.createElement("span");
+    readingProgressValue.className = "reading-progress__value";
+    readingProgressValue.setAttribute("aria-hidden", "true");
+    readingProgressValue.textContent = "0%";
+    readingProgress.append(readingProgressBar, readingProgressValue);
+
+    const navigation = document.querySelector(".nav");
+    if (navigation) navigation.after(readingProgress);
+    else document.body.prepend(readingProgress);
+
+    let readingProgressFrame = null;
+    let previousReadingProgress = -1;
+
+    const finiteNumber = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
+
+    const calculateReadingProgress = () => {
+      const bounds = readingArticle.getBoundingClientRect();
+      const scrollTop = Math.max(
+        0,
+        finiteNumber(window.scrollY || document.documentElement.scrollTop)
+      );
+      const viewportHeight = Math.max(
+        0,
+        finiteNumber(window.innerHeight || document.documentElement.clientHeight)
+      );
+      const measuredHeight = finiteNumber(bounds.height) ||
+        finiteNumber(bounds.bottom) - finiteNumber(bounds.top);
+      const articleHeight = Math.max(
+        0,
+        measuredHeight,
+        finiteNumber(readingArticle.offsetHeight),
+        finiteNumber(readingArticle.scrollHeight)
+      );
+      if (articleHeight === 0) return 0;
+
+      const articleTop = scrollTop + finiteNumber(bounds.top);
+      const scrollableArticleHeight = articleHeight - viewportHeight;
+      let ratio;
+
+      if (scrollableArticleHeight > 0) {
+        ratio = (scrollTop - articleTop) / scrollableArticleHeight;
+      } else if (scrollTop >= articleTop) {
+        ratio = 1;
+      } else {
+        ratio = (scrollTop + viewportHeight - articleTop) / articleHeight;
+      }
+
+      if (!Number.isFinite(ratio)) return 0;
+      return Math.round(Math.min(1, Math.max(0, ratio)) * 100);
+    };
+
+    const updateReadingProgress = () => {
+      readingProgressFrame = null;
+      const value = calculateReadingProgress();
+      if (value === previousReadingProgress) return;
+      previousReadingProgress = value;
+      readingProgressBar.value = value;
+      readingProgressBar.setAttribute("aria-valuenow", String(value));
+      readingProgressBar.setAttribute("aria-valuetext", `${value}% read`);
+      readingProgressValue.textContent = `${value}%`;
+    };
+
+    const scheduleReadingProgress = () => {
+      if (readingProgressFrame !== null) return;
+      readingProgressFrame = window.requestAnimationFrame(updateReadingProgress);
+    };
+
+    window.addEventListener("scroll", scheduleReadingProgress, { passive: true });
+    window.addEventListener("resize", scheduleReadingProgress, { passive: true });
+    window.addEventListener("pageshow", scheduleReadingProgress);
+    window.addEventListener("load", scheduleReadingProgress);
+    if (typeof window.ResizeObserver === "function") {
+      new window.ResizeObserver(scheduleReadingProgress).observe(readingArticle);
+    }
+    scheduleReadingProgress();
+  }
+
+  const cleanText = (value, maximum) => (
+    typeof value === "string" &&
+    value.length <= maximum &&
+    value === value.trim() &&
+    !/[\u0000-\u001f\u007f]/.test(value)
+      ? value
+      : null
+  );
+
+  const safeStoryUrl = (value) => (
+    typeof value === "string" &&
+    /^articles\/\d{4}-\d{2}-\d{2}_[a-z0-9]+(?:-[a-z0-9]+)*\.html$/.test(value)
+      ? value
+      : null
+  );
+
+  const safeReadingTime = (value) => {
+    const readingTime = cleanText(value, 32);
+    const match = readingTime && /^([1-9]\d*) min read$/.exec(readingTime);
+    return match && Number.isSafeInteger(Number(match[1])) ? readingTime : null;
+  };
+
+  const safeStory = (story) => {
+    if (!story || Object.getPrototypeOf(story) !== Object.prototype) return null;
+    const title = cleanText(story.title, 300);
+    const author = cleanText(story.author, 300);
+    const summary = cleanText(story.summary, 1200);
+    const category = cleanText(story.category, 40);
+    const type = cleanText(story.type, 100);
+    const date = cleanText(story.date, 10);
+    const readingTime = safeReadingTime(story.readingTime);
+    const url = safeStoryUrl(story.url);
+    if (!title || !author || !summary || !category || !type || !date || !readingTime || !url) return null;
+    if (!["crypto", "technology", "companies"].includes(category)) return null;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+    if (!type.toUpperCase().includes("PRESENCE") && !url.startsWith("articles/")) return null;
+    return Object.freeze({ ...story, title, author, summary, category, type, date, readingTime, url });
+  };
+
+  const stories = Array.isArray(window.PRESENCE_NEWS)
+    ? window.PRESENCE_NEWS.map(safeStory).filter(Boolean)
+    : [];
+
+  const appendText = (parent, tag, className, value) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    element.textContent = value;
+    parent.append(element);
+    return element;
+  };
+
+  const makeStoryLink = (story) => {
+    const link = document.createElement("a");
+    link.href = story.url;
+    link.textContent = story.title;
+    return link;
+  };
+
+  const publishedStories = stories;
+  const editorialStories = publishedStories.filter((story) => story.promotable !== false);
+  const featuredRoot = document.getElementById("featured-edits");
+  const latestRoot = document.getElementById("latest-edits");
+
+  if (featuredRoot && latestRoot && editorialStories.length) {
+    const featured = editorialStories.slice(0, 3);
+    const latest = editorialStories.slice(3, 7);
+    const latestStories = latest.length ? latest : editorialStories.slice(0, 4);
+
+    const featuredRows = featured.map((story) => {
+      const article = document.createElement("article");
+      article.className = "featured-row";
+
+      const main = document.createElement("div");
+      main.className = "featured-row__main";
+      const heading = document.createElement("h2");
+      heading.append(makeStoryLink(story));
+      main.append(heading);
+      appendText(main, "p", "story-author", `${story.author} · ${story.readingTime}`);
+
+      article.append(main);
+      appendText(article, "p", "featured-row__summary", story.summary);
+      return article;
+    });
+
+    const latestRows = latestStories.map((story) => {
+      const article = document.createElement("article");
+      article.className = "latest-row";
+      const heading = document.createElement("h2");
+      heading.append(makeStoryLink(story));
+      article.append(heading);
+      appendText(article, "p", "story-author", `${story.author} · ${story.readingTime}`);
+      return article;
+    });
+
+    featuredRoot.replaceChildren(...featuredRows);
+    latestRoot.replaceChildren(...latestRows);
+  }
+
+  const ticker = document.querySelector("[data-story-ticker]");
+  if (ticker && editorialStories.length) {
+    const tickerRegion = ticker.closest(".story-ticker");
+    const tickerControl = tickerRegion?.querySelector("[data-ticker-control]");
+    const tickerStories = editorialStories.slice(0, 8);
+    const makeSequence = (hidden = false) => {
+      const sequence = document.createElement("div");
+      sequence.className = "story-ticker__sequence";
+      if (hidden) sequence.setAttribute("aria-hidden", "true");
+
+      tickerStories.forEach((story, index) => {
+        const link = document.createElement(hidden ? "span" : "a");
+        link.className = "story-ticker__item";
+        if (!hidden) link.href = story.url;
+        const label = document.createElement("span");
+        label.textContent = index === 0 ? "Latest" : story.category;
+        link.append(label, document.createTextNode(story.title));
+        sequence.append(link);
+      });
+      return sequence;
+    };
+
+    ticker.replaceChildren(makeSequence(), makeSequence(true));
+    tickerRegion?.classList.add("is-ready");
+    if (tickerControl) tickerControl.hidden = false;
+
+    tickerControl?.addEventListener("click", () => {
+      const paused = tickerRegion.classList.toggle("is-paused");
+      tickerControl.textContent = paused ? "Play ticker" : "Pause ticker";
+    });
+  }
+
+  const archiveRoot = document.querySelector("[data-future-grid]");
+  if (!archiveRoot) return;
+
+  const archiveCount = document.querySelector("[data-future-count]");
+  const archiveStatus = document.querySelector("[data-future-status]");
+  const archiveControls = document.querySelector("[data-future-controls]");
+  const archiveMore = document.querySelector("[data-future-more]");
+  const archiveSearch = document.getElementById("future-search");
+  const archiveCategory = document.getElementById("future-category");
+  const archiveState = { items: [], visible: 24 };
+
+  if (!archiveCount || !archiveStatus || !archiveControls || !archiveMore) return;
+
+  const normalize = (value) => String(value || "").trim().toLocaleLowerCase("en");
+  const categoryLabel = (category) => ({
+    crypto: "Crypto",
+    technology: "Technology",
+    companies: "Companies"
+  })[category] || "Technology";
+
+  const safeFutureUrl = (value) => {
+    try {
+      const url = new URL(value);
+      const decodedPath = decodeURIComponent(url.pathname);
+      return url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "future.com" &&
+        !url.username &&
+        !url.password &&
+        !url.port &&
+        !url.search &&
+        !url.hash &&
+        /^\/[^/]+\/$/.test(decodedPath) &&
+        !decodedPath.includes("\\")
+          ? url.href
+          : null;
+    } catch (_error) {
+      return null;
+    }
+  };
+
+  const safeLocalArticleUrl = (value, id) => {
+    if (!Number.isSafeInteger(id) || id <= 0 || typeof value !== "string") return null;
+    const match = /^articles\/future\/([1-9]\d*)\.html$/.exec(value.trim());
+    return match && Number(match[1]) === id ? match[0] : null;
+  };
+
+  const validArchiveItem = (item) => (
+    item &&
+    Object.getPrototypeOf(item) === Object.prototype &&
+    Object.keys(item).sort().join(",") === "authors,category,date,excerpt,external,id,local_url,title,url" &&
+    item.external === true &&
+    Number.isSafeInteger(item.id) &&
+    item.id > 0 &&
+    Boolean(cleanText(item.title, 300)) &&
+    Boolean(cleanText(item.authors, 300)) &&
+    typeof item.excerpt === "string" &&
+    item.excerpt === "" &&
+    /^\d{4}-\d{2}-\d{2}$/.test(item.date) &&
+    ["crypto", "technology", "companies"].includes(item.category) &&
+    Boolean(safeFutureUrl(item.url)) &&
+    Boolean(safeLocalArticleUrl(item.local_url, item.id))
+  );
+
+  const makeArchiveRow = (item) => {
+    const article = document.createElement("article");
+    article.className = "archive-row";
+
+    const meta = document.createElement("p");
+    meta.className = "archive-row__meta";
+    appendText(meta, "span", "", categoryLabel(item.category));
+    const readingTime = safeReadingTime(item.readingTime);
+    appendText(meta, "span", "", readingTime || item.source);
+
+    const heading = document.createElement("h3");
+    const link = document.createElement("a");
+    link.href = item.localUrl;
+    link.textContent = item.title;
+    heading.append(link);
+
+    const foot = document.createElement("div");
+    foot.className = "archive-row__foot";
+    appendText(foot, "p", "story-author", item.authors);
+    const sourceLink = document.createElement("a");
+    sourceLink.className = "archive-row__source";
+    sourceLink.href = item.localUrl;
+    sourceLink.textContent = "Read article";
+    sourceLink.setAttribute("aria-label", `Open ${item.title} on PRESENCE`);
+    foot.append(sourceLink);
+
+    article.append(meta, heading, foot);
+    return article;
+  };
+
+  const filteredArchiveItems = () => {
+    const query = normalize(archiveSearch?.value);
+    const category = archiveCategory?.value || "all";
+    return archiveState.items.filter((item) => {
+      const matchesCategory = category === "all" || item.category === category;
+      const haystack = normalize(`${item.title} ${item.authors}`);
+      return matchesCategory && (!query || haystack.includes(query));
+    });
+  };
+
+  const renderArchive = () => {
+    const filtered = filteredArchiveItems();
+    const visible = filtered.slice(0, archiveState.visible);
+    archiveRoot.replaceChildren(...visible.map(makeArchiveRow));
+    archiveMore.hidden = visible.length >= filtered.length;
+    archiveStatus.textContent = filtered.length
+      ? `Showing ${visible.length} of ${filtered.length} articles.`
+      : "No articles match this search.";
+  };
+
+  const resetAndRenderArchive = () => {
+    archiveState.visible = 24;
+    renderArchive();
+  };
+
+  archiveSearch?.addEventListener("input", resetAndRenderArchive);
+  archiveCategory?.addEventListener("change", resetAndRenderArchive);
+  archiveMore?.addEventListener("click", () => {
+    archiveState.visible += 24;
+    renderArchive();
+  });
+
+  const localArchiveItems = publishedStories.map((story) => Object.freeze({
+    key: `story:${story.url}`,
+    title: story.title,
+    authors: story.author,
+    date: story.date,
+    readingTime: story.readingTime,
+    source: "PRESENCE",
+    category: story.category,
+    localUrl: story.url
+  }));
+
+  const updateArchive = (catalogItems = []) => {
+    const combined = [...localArchiveItems, ...catalogItems];
+    const unique = new Map();
+    combined.forEach((item) => {
+      if (!unique.has(item.key)) unique.set(item.key, item);
+    });
+    archiveState.items = [...unique.values()].sort((left, right) => (
+      right.date.localeCompare(left.date) || left.title.localeCompare(right.title, "en")
+    ));
+    archiveCount.textContent = String(archiveState.items.length);
+    archiveControls.hidden = archiveState.items.length === 0;
+    resetAndRenderArchive();
+  };
+
+  updateArchive();
+
+  fetch("assets/data/future-catalog.json", {
+    credentials: "same-origin",
+    redirect: "error"
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const contentType = response.headers.get("content-type")?.split(";", 1)[0].trim().toLowerCase();
+      const contentLength = Number(response.headers.get("content-length") || 0);
+      if (contentType !== "application/json" || contentLength > 1_000_000) {
+        throw new Error("Invalid catalog response");
+      }
+      return response.text();
+    })
+    .then((document) => {
+      if (document.length > 1_000_000) throw new Error("Catalog is too large");
+      const payload = JSON.parse(document);
+      const payloadKeys = payload && Object.getPrototypeOf(payload) === Object.prototype
+        ? Object.keys(payload).sort().join(",")
+        : "";
+      if (
+        payloadKeys !== "api_total,count,excluded_presence_count,items,schema_version,source" ||
+        payload.schema_version !== 2 ||
+        payload.source !== "future.com" ||
+        !Number.isSafeInteger(payload.api_total) ||
+        !Number.isSafeInteger(payload.count) ||
+        !Number.isSafeInteger(payload.excluded_presence_count) ||
+        !Array.isArray(payload.items) ||
+        payload.count !== payload.items.length ||
+        payload.api_total !== payload.count + payload.excluded_presence_count
+      ) {
+        throw new Error("Invalid catalog schema");
+      }
+      const items = payload.items.filter(validArchiveItem);
+      const ids = new Set(items.map((item) => item.id));
+      const urls = new Set(items.map((item) => item.url));
+      const localUrls = new Set(items.map((item) => item.local_url));
+      if (
+        items.length !== payload.items.length ||
+        ids.size !== items.length ||
+        urls.size !== items.length ||
+        localUrls.size !== items.length
+      ) {
+        throw new Error("Invalid catalog records");
+      }
+      const catalogItems = items.map((item) => Object.freeze({
+        key: `catalog:${item.id}`,
+        title: item.title.trim(),
+        authors: item.authors.trim(),
+        date: item.date,
+        readingTime: null,
+        source: "Future",
+        category: item.category,
+        localUrl: safeLocalArticleUrl(item.local_url, item.id)
+      }));
+      updateArchive(catalogItems);
+    })
+    .catch(() => {
+      if (!localArchiveItems.length) {
+        archiveCount.textContent = "0";
+        archiveStatus.textContent = "The article archive is temporarily unavailable.";
+        archiveControls.hidden = true;
+        archiveMore.hidden = true;
+      }
+    });
+})();
