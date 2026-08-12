@@ -1052,60 +1052,69 @@ button:focus-visible {
 
 .authors {
   display: grid;
-  gap: 18px;
-  margin: 36px 0;
-  padding-top: 28px;
+  gap: 0;
+  width: 100%;
+  margin-top: 56px;
+  padding-top: 24px;
   border-top: 1px solid var(--line);
 }
 
 .author {
   display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 14px;
+  grid-template-columns: 72px minmax(0, 1fr) minmax(104px, 140px);
+  gap: 16px 40px;
   align-items: start;
 }
 
+.author + .author {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
 .author__avatar {
-  width: 56px;
-  height: 56px;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   border: 1px solid var(--line);
-  object-fit: cover;
   background: #161225;
 }
 
-.author__initials {
-  display: grid;
-  place-items: center;
+.author__avatar img {
+  width: 42px;
+  height: 42px;
+}
+
+.author__bio {
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.author__bio strong {
   color: var(--text);
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  background:
-    radial-gradient(circle at 70% 20%, rgba(92, 225, 255, 0.28), transparent 42%),
-    linear-gradient(145deg, rgba(240, 138, 75, 0.42), rgba(91, 44, 145, 0.7));
-}
-
-.author strong {
-  display: block;
-  font-family: var(--font-display);
-  margin-bottom: 4px;
-}
-
-.author p {
-  color: var(--muted);
-  font-size: 0.92rem;
 }
 
 .author__links {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-  font-size: 0.85rem;
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.author__links span {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .author__links a {
   color: var(--cyan);
+  text-decoration: underline;
+  text-decoration-color: rgba(92, 225, 255, 0.5);
+  text-underline-offset: 0.2em;
 }
 
 .disclaimer {
@@ -1407,6 +1416,30 @@ button:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .authors {
+    margin-top: 40px;
+    padding-top: 20px;
+  }
+
+  .author {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 10px 16px;
+  }
+
+  .author__avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .author__avatar img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .author__links {
+    grid-column: 2;
+  }
+
   .page-hero {
     padding: 58px 0 42px;
   }
@@ -1444,10 +1477,12 @@ button:focus-visible {
 @media (pointer: coarse) {
   .brand,
   .popular a,
-  .footer a {
+  .footer a,
+  .author__links a {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
+    touch-action: manipulation;
   }
 }
 

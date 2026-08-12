@@ -73,6 +73,7 @@
     ".article__body blockquote",
     ".article__callout",
     ".article__matrix",
+    ".author",
     ".sidebar"
   ].join(",");
 
@@ -384,6 +385,16 @@
   const archiveState = { items: [], visible: 24 };
 
   if (!archiveCount || !archiveStatus || !archiveControls || !archiveMore) return;
+
+  try {
+    if (archiveSearch && window.location && typeof window.location.search === "string") {
+      const requestedAuthor = new URLSearchParams(window.location.search).get("author");
+      const cleanAuthor = cleanText(requestedAuthor, 300);
+      if (cleanAuthor) archiveSearch.value = cleanAuthor;
+    }
+  } catch (_error) {
+    if (archiveSearch) archiveSearch.value = "";
+  }
 
   const normalize = (value) => String(value || "").trim().toLocaleLowerCase("en");
   const categoryLabel = (category) => ({
