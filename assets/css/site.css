@@ -1086,14 +1086,6 @@ button:focus-visible {
     linear-gradient(145deg, rgba(240, 138, 75, 0.42), rgba(91, 44, 145, 0.7));
 }
 
-.article__source {
-  margin: 28px 0 0;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-
 .author strong {
   display: block;
   font-family: var(--font-display);

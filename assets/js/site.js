@@ -73,7 +73,6 @@
     ".article__body blockquote",
     ".article__callout",
     ".article__matrix",
-    ".article__source",
     ".sidebar"
   ].join(",");
 
