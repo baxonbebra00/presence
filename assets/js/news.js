@@ -1,11 +1,11 @@
 (() => {
-  const stories = Array.isArray(window.PRESENCE_NEWS) ? window.PRESENCE_NEWS : [];
+  const stories = Array.isArray(window.PRESENCE_NEWS) ? window.PRESENCE_NEWS : null;
   const grid = document.getElementById("news-grid");
   const empty = document.getElementById("news-empty");
   const filters = Array.from(document.querySelectorAll("[data-news-filter]"));
   const categories = new Set(["all", "crypto", "technology", "companies"]);
 
-  if (!grid || !empty || !filters.length) return;
+  if (!stories || !stories.length || !grid || !empty || !filters.length) return;
 
   const categoryLabel = (category) => ({
     crypto: "Crypto",
