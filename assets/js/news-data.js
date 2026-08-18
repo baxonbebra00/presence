@@ -1,5 +1,27 @@
 window.PRESENCE_NEWS = [
   {
+    "category": "crypto",
+    "type": "ARTICLE",
+    "title": "AI, Asia and Onchain Intelligence: An Interview With Nansen’s Alex Svanevik",
+    "summary": "Nansen CEO Alex Svanevik on building through the bear market, moving AI to the front of the product, exchange transparency after FTX, and why Asia matters for the next stage of crypto.",
+    "author": "Alex Svanevik & Adrian Keller",
+    "date": "2023-09-20",
+    "readingTime": "9 min read",
+    "url": "articles/2023-09-20_nansen-alex-svanevik-ai-asia-onchain-intelligence.html",
+    "promotable": true
+  },
+  {
+    "category": "crypto",
+    "type": "ARTICLE",
+    "title": "Animoca chairman Yat Siu: Ownership economy ‘will be worth trillions’",
+    "summary": "Yat Siu, one of the early major advocates of blockchain gaming and digital ownership, says gamers remain at the forefront of blockchain adoption.",
+    "author": "Yat Siu",
+    "date": "2023-09-20",
+    "readingTime": "15 min read",
+    "url": "articles/2023-09-20_yat-siu-ownership-economy-will-be-worth-trillions.html",
+    "promotable": true
+  },
+  {
     "category": "companies",
     "type": "ARTICLE",
     "title": "Why Applying Machine Learning to Biology is Hard – But Worth It",
