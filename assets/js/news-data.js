@@ -9,7 +9,7 @@ window.PRESENCE_NEWS = [
     "readingTime": "7 min read",
     "url": "articles/2026-08-19_changpeng-zhao-bitcoin-outlook-2027.html",
     "promotable": true,
-    "featured": true
+    "featuredRank": 2
   },
   {
     "category": "crypto",
@@ -21,7 +21,7 @@ window.PRESENCE_NEWS = [
     "readingTime": "9 min read",
     "url": "articles/2023-09-20_nansen-alex-svanevik-ai-asia-onchain-intelligence.html",
     "promotable": true,
-    "featured": true
+    "featuredRank": 3
   },
   {
     "category": "crypto",
@@ -32,8 +32,7 @@ window.PRESENCE_NEWS = [
     "date": "2023-09-20",
     "readingTime": "15 min read",
     "url": "articles/2023-09-20_yat-siu-ownership-economy-will-be-worth-trillions.html",
-    "promotable": true,
-    "featured": true
+    "promotable": true
   },
   {
     "category": "companies",
@@ -1464,6 +1463,18 @@ window.PRESENCE_NEWS = [
     "readingTime": "5 min read",
     "url": "articles/2020-04-08_crypto-business-model.html",
     "promotable": true
+  },
+  {
+    "category": "crypto",
+    "type": "ARTICLE",
+    "title": "Credible Neutrality As A Guiding Principle",
+    "summary": "Vitalik Buterin argues that mechanisms governing high-stakes outcomes must be credibly neutral, then sets out practical rules for making them fair, legible, and effective.",
+    "author": "Vitalik Buterin",
+    "date": "2020-01-03",
+    "readingTime": "11 min read",
+    "url": "articles/2020-01-03_credible-neutrality-guiding-principle.html",
+    "promotable": true,
+    "featuredRank": 1
   },
   {
     "category": "companies",

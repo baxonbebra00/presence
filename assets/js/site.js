@@ -330,6 +330,10 @@
     const date = safePublicationDate(cleanText(story.date, 10));
     const readingTime = safeReadingTime(story.readingTime);
     const url = safeStoryUrl(story.url);
+    const featuredRank = Number.isSafeInteger(story.featuredRank) &&
+      story.featuredRank >= 1 && story.featuredRank <= 100
+        ? story.featuredRank
+        : null;
     if (!title || !author || !summary || !category || !type || !date || !readingTime || !url) return null;
     if (!["crypto", "technology", "companies"].includes(category)) return null;
     if (!type.toUpperCase().includes("PRESENCE") && !url.startsWith("articles/")) return null;
@@ -343,7 +347,7 @@
       date,
       readingTime,
       url,
-      featured: story.featured === true
+      featuredRank
     });
   };
 
@@ -384,8 +388,14 @@
   const latestRoot = document.getElementById("latest-edits");
 
   if (featuredRoot && latestRoot && editorialStories.length) {
-    const pinnedFeatured = editorialStories.filter((story) => story.featured);
-    const otherStories = editorialStories.filter((story) => !story.featured);
+    const pinnedFeatured = editorialStories
+      .filter((story) => story.featuredRank !== null)
+      .sort((left, right) => (
+        left.featuredRank - right.featuredRank ||
+        right.date.localeCompare(left.date) ||
+        left.url.localeCompare(right.url)
+      ));
+    const otherStories = editorialStories.filter((story) => story.featuredRank === null);
     const featured = [...pinnedFeatured, ...otherStories].slice(0, 3);
     const featuredStories = new Set(featured);
     const latestStories = editorialStories
