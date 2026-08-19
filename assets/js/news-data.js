@@ -2,13 +2,26 @@ window.PRESENCE_NEWS = [
   {
     "category": "crypto",
     "type": "ARTICLE",
+    "title": "CZ on Bitcoin’s Correction, 2027 Outlook and Corporate Adoption",
+    "summary": "Binance co-founder Changpeng Zhao explains why bitcoin corrections are normal, what institutional adoption could mean for 2027, and how exchanges scale through record volumes.",
+    "author": "Changpeng Zhao & Angie Lau",
+    "date": "2026-08-19",
+    "readingTime": "7 min read",
+    "url": "articles/2026-08-19_changpeng-zhao-bitcoin-outlook-2027.html",
+    "promotable": true,
+    "featured": true
+  },
+  {
+    "category": "crypto",
+    "type": "ARTICLE",
     "title": "AI, Asia and Onchain Intelligence: An Interview With Nansen’s Alex Svanevik",
     "summary": "Nansen CEO Alex Svanevik on building through the bear market, moving AI to the front of the product, exchange transparency after FTX, and why Asia matters for the next stage of crypto.",
     "author": "Alex Svanevik & Adrian Keller",
     "date": "2023-09-20",
     "readingTime": "9 min read",
     "url": "articles/2023-09-20_nansen-alex-svanevik-ai-asia-onchain-intelligence.html",
-    "promotable": true
+    "promotable": true,
+    "featured": true
   },
   {
     "category": "crypto",
@@ -19,7 +32,8 @@ window.PRESENCE_NEWS = [
     "date": "2023-09-20",
     "readingTime": "15 min read",
     "url": "articles/2023-09-20_yat-siu-ownership-economy-will-be-worth-trillions.html",
-    "promotable": true
+    "promotable": true,
+    "featured": true
   },
   {
     "category": "companies",

@@ -48,6 +48,45 @@
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
+  const publicationMonths = Object.freeze([
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]);
+
+  const safePublicationDate = (value) => {
+    if (typeof value !== "string") return null;
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!match) return null;
+
+    const yearValue = Number(match[1]);
+    const monthValue = Number(match[2]);
+    const dayValue = Number(match[3]);
+    if (yearValue < 1 || monthValue < 1 || monthValue > 12 || dayValue < 1) return null;
+
+    const leapYear = yearValue % 4 === 0 && (yearValue % 100 !== 0 || yearValue % 400 === 0);
+    const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return dayValue <= daysInMonth[monthValue - 1] ? value : null;
+  };
+
+  const formatPublicationDate = (value) => {
+    const date = safePublicationDate(value);
+    if (!date) return null;
+    const [yearValue, monthValue, dayValue] = date.split("-");
+    return `${publicationMonths[Number(monthValue) - 1]} ${Number(dayValue)}, ${yearValue}`;
+  };
+
+  const makePublicationTime = (value, className = "") => {
+    const date = safePublicationDate(value);
+    const label = date && formatPublicationDate(date);
+    if (!date || !label) return null;
+
+    const time = document.createElement("time");
+    if (className) time.className = className;
+    time.dateTime = date;
+    time.textContent = label;
+    return time;
+  };
+
   const motionSelector = [
     ".editorial-catalog .catalog-heading",
     ".featured-row",
@@ -151,6 +190,22 @@
   }
 
   const readingArticle = document.querySelector("main.article-layout > article");
+  const articleMeta = readingArticle?.querySelector(".article__meta");
+  if (articleMeta && !articleMeta.querySelector("time")) {
+    let articleFilename = window.location.pathname.split("/").pop() || "";
+    try {
+      articleFilename = decodeURIComponent(articleFilename);
+    } catch (_error) {
+      articleFilename = "";
+    }
+
+    const filenameDate = /^(\d{4}-\d{2}-\d{2})_[a-z0-9]+(?:-[a-z0-9]+)*\.html$/.exec(articleFilename)?.[1];
+    const publicationTime = makePublicationTime(filenameDate);
+    if (publicationTime) {
+      articleMeta.prepend(publicationTime, document.createTextNode(" · "));
+    }
+  }
+
   if (readingArticle) {
     const readingProgress = document.createElement("div");
     readingProgress.className = "reading-progress";
@@ -272,14 +327,24 @@
     const summary = cleanText(story.summary, 1200);
     const category = cleanText(story.category, 40);
     const type = cleanText(story.type, 100);
-    const date = cleanText(story.date, 10);
+    const date = safePublicationDate(cleanText(story.date, 10));
     const readingTime = safeReadingTime(story.readingTime);
     const url = safeStoryUrl(story.url);
     if (!title || !author || !summary || !category || !type || !date || !readingTime || !url) return null;
     if (!["crypto", "technology", "companies"].includes(category)) return null;
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
     if (!type.toUpperCase().includes("PRESENCE") && !url.startsWith("articles/")) return null;
-    return Object.freeze({ ...story, title, author, summary, category, type, date, readingTime, url });
+    return Object.freeze({
+      ...story,
+      title,
+      author,
+      summary,
+      category,
+      type,
+      date,
+      readingTime,
+      url,
+      featured: story.featured === true
+    });
   };
 
   const stories = Array.isArray(window.PRESENCE_NEWS)
@@ -301,15 +366,31 @@
     return link;
   };
 
+  const appendStoryMeta = (parent, story) => {
+    const meta = document.createElement("p");
+    meta.className = "story-author";
+    meta.append(document.createTextNode(`${story.author} · `));
+
+    const publicationTime = makePublicationTime(story.date);
+    if (publicationTime) meta.append(publicationTime, document.createTextNode(" · "));
+    meta.append(document.createTextNode(story.readingTime));
+    parent.append(meta);
+    return meta;
+  };
+
   const publishedStories = stories;
   const editorialStories = publishedStories.filter((story) => story.promotable !== false);
   const featuredRoot = document.getElementById("featured-edits");
   const latestRoot = document.getElementById("latest-edits");
 
   if (featuredRoot && latestRoot && editorialStories.length) {
-    const featured = editorialStories.slice(0, 3);
-    const latest = editorialStories.slice(3, 7);
-    const latestStories = latest.length ? latest : editorialStories.slice(0, 4);
+    const pinnedFeatured = editorialStories.filter((story) => story.featured);
+    const otherStories = editorialStories.filter((story) => !story.featured);
+    const featured = [...pinnedFeatured, ...otherStories].slice(0, 3);
+    const featuredStories = new Set(featured);
+    const latestStories = editorialStories
+      .filter((story) => !featuredStories.has(story))
+      .slice(0, 4);
 
     const featuredRows = featured.map((story) => {
       const article = document.createElement("article");
@@ -320,7 +401,7 @@
       const heading = document.createElement("h2");
       heading.append(makeStoryLink(story));
       main.append(heading);
-      appendText(main, "p", "story-author", `${story.author} · ${story.readingTime}`);
+      appendStoryMeta(main, story);
 
       article.append(main);
       appendText(article, "p", "featured-row__summary", story.summary);
@@ -333,7 +414,7 @@
       const heading = document.createElement("h2");
       heading.append(makeStoryLink(story));
       article.append(heading);
-      appendText(article, "p", "story-author", `${story.author} · ${story.readingTime}`);
+      appendStoryMeta(article, story);
       return article;
     });
 
@@ -440,7 +521,7 @@
     Boolean(cleanText(item.authors, 300)) &&
     typeof item.excerpt === "string" &&
     item.excerpt === "" &&
-    /^\d{4}-\d{2}-\d{2}$/.test(item.date) &&
+    Boolean(safePublicationDate(item.date)) &&
     ["crypto", "technology", "companies"].includes(item.category) &&
     Boolean(safeFutureUrl(item.url)) &&
     Boolean(safeLocalArticleUrl(item.local_url, item.id))
@@ -453,6 +534,8 @@
     const meta = document.createElement("p");
     meta.className = "archive-row__meta";
     appendText(meta, "span", "", categoryLabel(item.category));
+    const publicationTime = makePublicationTime(item.date);
+    if (publicationTime) meta.append(publicationTime);
     const readingTime = safeReadingTime(item.readingTime);
     appendText(meta, "span", "", readingTime || item.source);
 

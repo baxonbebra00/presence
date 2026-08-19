@@ -21,6 +21,38 @@
     return element;
   };
 
+  const publicationMonths = Object.freeze([
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]);
+
+  const safePublicationDate = (value) => {
+    if (typeof value !== "string") return null;
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!match) return null;
+
+    const yearValue = Number(match[1]);
+    const monthValue = Number(match[2]);
+    const dayValue = Number(match[3]);
+    if (yearValue < 1 || monthValue < 1 || monthValue > 12 || dayValue < 1) return null;
+
+    const leapYear = yearValue % 4 === 0 && (yearValue % 100 !== 0 || yearValue % 400 === 0);
+    const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return dayValue <= daysInMonth[monthValue - 1] ? value : null;
+  };
+
+  const makePublicationTime = (value) => {
+    const date = safePublicationDate(value);
+    if (!date) return null;
+
+    const [yearValue, monthValue, dayValue] = date.split("-");
+    const time = document.createElement("time");
+    time.className = "news-card__date";
+    time.dateTime = date;
+    time.textContent = `${publicationMonths[Number(monthValue) - 1]} ${Number(dayValue)}, ${yearValue}`;
+    return time;
+  };
+
   const safeReadingTime = (value) => {
     if (typeof value !== "string" || value.length > 32 || value !== value.trim()) return null;
     const match = /^([1-9]\d*) min read$/.exec(value);
@@ -35,6 +67,8 @@
     meta.className = "news-card__meta";
     appendText(meta, "span", "news-card__category", categoryLabel(story.category));
     appendText(meta, "span", "news-card__type", story.type);
+    const publicationTime = makePublicationTime(story.date);
+    if (publicationTime) meta.append(publicationTime);
     article.append(meta);
 
     const heading = document.createElement("h2");
