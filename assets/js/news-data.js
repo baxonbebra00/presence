@@ -16,7 +16,7 @@ window.PRESENCE_NEWS = [
     "type": "ARTICLE",
     "title": "AI, Asia and Onchain Intelligence: An Interview With Nansen’s Alex Svanevik",
     "summary": "Nansen CEO Alex Svanevik on building through the bear market, moving AI to the front of the product, exchange transparency after FTX, and why Asia matters for the next stage of crypto.",
-    "author": "Alex Svanevik & Adrian Keller",
+    "author": "Alex Svanevik",
     "date": "2023-09-20",
     "readingTime": "9 min read",
     "url": "articles/2023-09-20_nansen-alex-svanevik-ai-asia-onchain-intelligence.html",
