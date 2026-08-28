@@ -29,10 +29,6 @@
       "bio": "Andrew Scott is a professor of economics at London Business School. He coauthored The 100 Year Life, cofounded The Longevity Forum, and is a member of the WEF council on Healthy Ageing and Longevity.",
       "source": "https://future.com/author/andrew-scott/"
     },
-    "Angie Lau": {
-      "bio": "Angie Lau is a journalist and the founder and editor-in-chief of Forkast.",
-      "source": "https://forkast.news/about/"
-    },
     "Anu Hariharan": {
       "bio": "Anu Hariharan is a partner at Y Combinator's Continuity Fund focused on growth stage investments. Prior, she was an investment partner at a16z and principal at BCG's Private Equity practice.",
       "source": "https://future.com/author/anu-hariharan/"
@@ -145,9 +141,9 @@
       "bio": "Frederic Lalonde is the CEO and cofounder of the travel-booking app Hopper. He previously cofounded Newtrade Technologies, which was acquired by Expedia in 2002.",
       "source": "https://future.com/author/frederic-lalonde/"
     },
-    "Future Editorial": {
-      "bio": "Future Editorial was the editorial team behind Future, a technology and business publication from Andreessen Horowitz.",
-      "source": "https://future.com/"
+    "Presence Editorial": {
+      "bio": "Presence Editorial is the editorial team behind Presence.",
+      "source": "https://baxonbebra00.github.io/presence/about.html"
     },
     "Gary Hoberman": {
       "bio": "Gary Hoberman is founder and CEO of Unqork. Prior to founding Unqork, Gary served as executive vice president and global CIO for MetLife, and was one of the youngest managing directors in Citi’s history.",
