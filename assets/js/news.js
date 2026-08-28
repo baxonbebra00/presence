@@ -90,6 +90,18 @@
     return article;
   };
 
+  const editorialRank = (story) => (
+    Number.isSafeInteger(story.featuredRank) && story.featuredRank > 0
+      ? story.featuredRank
+      : Number.MAX_SAFE_INTEGER
+  );
+
+  const orderedStories = [...stories].sort((left, right) => (
+    editorialRank(left) - editorialRank(right) ||
+    right.date.localeCompare(left.date) ||
+    left.url.localeCompare(right.url)
+  ));
+
   const updateCounts = () => {
     document.querySelectorAll("[data-news-count]").forEach((node) => {
       const category = node.dataset.newsCount;
@@ -102,8 +114,8 @@
   const render = (requestedCategory) => {
     const category = categories.has(requestedCategory) ? requestedCategory : "all";
     const visibleStories = category === "all"
-      ? stories
-      : stories.filter((story) => story.category === category);
+      ? orderedStories
+      : orderedStories.filter((story) => story.category === category);
 
     grid.replaceChildren(...visibleStories.map(makeCard));
     empty.hidden = visibleStories.length > 0;
