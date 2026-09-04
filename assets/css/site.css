@@ -1153,6 +1153,83 @@ textarea:focus-visible {
   max-width: 68ch;
 }
 
+.about-find {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.page-hero .about-find__label {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.about-find__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.about-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease, background var(--motion-fast) ease;
+}
+
+.about-social img {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.about-social__state {
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.about-social--active {
+  border-color: rgba(92, 225, 255, 0.34);
+  background: rgba(92, 225, 255, 0.07);
+}
+
+.about-social--active:hover {
+  transform: translateY(-2px);
+  border-color: rgba(92, 225, 255, 0.7);
+  background: rgba(92, 225, 255, 0.12);
+  color: var(--text);
+}
+
+.about-social--active .about-social__state {
+  background: rgba(92, 225, 255, 0.14);
+  color: var(--cyan);
+}
+
+.about-social--soon {
+  opacity: 0.64;
+  cursor: default;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1575,6 +1652,15 @@ textarea:focus-visible {
 
   .page-hero {
     padding: 58px 0 42px;
+  }
+
+  .about-find__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-social {
+    width: 100%;
   }
 
   .footer {
