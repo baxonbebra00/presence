@@ -1473,7 +1473,7 @@ window.PRESENCE_NEWS = [
     "author": "Vitalik Buterin",
     "date": "2020-01-03",
     "readingTime": "11 min read",
-    "image": "assets/img/articles/2020-01-03_credible-neutrality-guiding-principle/vitalik-buterin.png",
+    "image": "assets/img/articles/2020-01-03_credible-neutrality-guiding-principle/vitalik-buterin.webp",
     "imageAlt": "Vitalik Buterin speaking on stage",
     "url": "articles/2020-01-03_credible-neutrality-guiding-principle.html",
     "promotable": true,

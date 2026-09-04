@@ -11,12 +11,53 @@
 <meta property="og:site_name" content="PRESENCE">
 <meta property="og:title" content="The Case for ‘Developer Experience’">
 <meta property="og:description" content="How are developers supposed to manage and coordinate fast-moving, heterogeneous systems including maintenance &amp; operations — and free themselves to build?">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Case for ‘Developer Experience’">
 <meta name="twitter:description" content="How are developers supposed to manage and coordinate fast-moving, heterogeneous systems including maintenance &amp; operations — and free themselves to build?">
-<link rel="icon" href="../assets/img/presence-social.png" type="image/png">
-<link rel="stylesheet" href="../assets/css/fonts.css?v=6b18cb5c4169e6e4">
-<link rel="stylesheet" href="../assets/css/site.css?v=90def27e97055b19">
+<link rel="icon" href="../assets/img/presence-icon.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/fonts.css?v=2623dfcbb6f68f80">
+<link rel="stylesheet" href="../assets/css/site.css?v=d8459010b634e156">
+<!-- PRESENCE SEO:START -->
+<link rel="canonical" href="https://rudyvale.github.io/presence/articles/2021-09-08_the-case-for-developer-experience.html">
+<meta property="og:url" content="https://rudyvale.github.io/presence/articles/2021-09-08_the-case-for-developer-experience.html">
+<meta property="og:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<meta name="twitter:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://rudyvale.github.io/presence/#organization",
+      "name": "PRESENCE",
+      "url": "https://rudyvale.github.io/presence/",
+      "logo": "https://rudyvale.github.io/presence/assets/img/presence-social.png",
+      "sameAs": [
+        "https://t.me/presencemedia"
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://rudyvale.github.io/presence/articles/2021-09-08_the-case-for-developer-experience.html#article",
+      "headline": "The Case for ‘Developer Experience’",
+      "description": "How are developers supposed to manage and coordinate fast-moving, heterogeneous systems including maintenance & operations — and free themselves to build?",
+      "mainEntityOfPage": "https://rudyvale.github.io/presence/articles/2021-09-08_the-case-for-developer-experience.html",
+      "image": [
+        "https://rudyvale.github.io/presence/assets/img/presence-social.png"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Jean Yang"
+      },
+      "publisher": {
+        "@id": "https://rudyvale.github.io/presence/#organization"
+      },
+      "articleSection": "Technology"
+    }
+  ]
+}
+</script>
+<!-- PRESENCE SEO:END -->
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -24,7 +65,7 @@
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand" href="../index.html" aria-label="Presence home">
-      <img class="brand__mark" src="../assets/img/presence-logo.png" alt="">
+      <img class="brand__mark" src="../assets/img/presence-logo.webp" alt="" decoding="async">
       <span class="brand__word">PRESENCE</span>
     </a>
     <nav class="nav__links" id="nav-menu" aria-label="Primary navigation">
@@ -32,6 +73,8 @@
       <a href="../news.html#crypto">Crypto</a>
       <a href="../news.html#technology">Technology</a>
       <a href="../news.html#companies">Companies</a>
+      <a class="nav-search-link" href="../index.html#future-archive">Search</a>
+
       <a href="../about.html">About</a>
       <a href="../contact.html">Contact</a>
     </nav>
@@ -50,7 +93,7 @@
     <p class="article__meta">Jean Yang · 19 min read</p>
 
     <div class="article__body">
-      <p class="article__image"><img src="../assets/img/articles/2021-09-08_the-case-for-developer-experience/images/01_eddba2f3.jpg" alt="" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async"></p>
+      <p class="article__image"><img src="../assets/img/articles/2021-09-08_the-case-for-developer-experience/images/01_eddba2f3.webp" alt="" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async"></p>
       <p>There’s been a lot of buzz around APIs, “no code,” and “low code”: Developers can add new features more easily than ever before! While it’s true that this new wave of tools has helped developers build bigger systems, and build them faster, it turns out that developers are now spending their time worrying about an unintended consequence: How exactly are they supposed to manage and coordinate these fast-moving, heterogeneous systems — and free themselves to build?</p>
       <p>Enabling developers to build matters more than ever. The number of developers is already greater than Australia’s population, growing faster than Brazil’s population, and on track to surpass Canada’s population. As every company keeps turning into a technology company on the inside — whatever it sells — developers are gaining more influence. Much as we saw UX and interaction design rise when computing started going mainstream decades ago — from command line interfaces to the “GUIification of everything” to, over the last decade, the ascent of design — we’re now seeing developers rise: as buyers, as influencers, as a creative class.</p>
       <p>But because we love simple narratives, we’re missing the larger picture, and the bigger chance here, to unlock the full promise of developer experience (DX). As an industry, we’ve been so focused on finally putting developers, and developer tools, in the spotlight that we’ve oversimplified what developers actually want. By developer experience, I mean the full sum of how developers interact with their tools, end to end, every day. Yes, there’s more attention than ever on how developers adopt and use tools (including consumer tools), and whole talks and panels are devoted to “DX” — yet major parts of developer experience still get overlooked. Since developers spend less than a third of their time actually writing code, developer experience also covers the rest: maintaining code, testing, security concerns, incident response, and more. And many of these parts of developer experience remain ignored because they’re hard, they’re messy, and they don’t come with “silver bullet” fixes.</p>
@@ -72,7 +115,7 @@
       <h2>The Software Heterogeneity Problem</h2>
       <p>Here’s how the Software Heterogeneity Problem came to pose one of the biggest challenges to good developer experience today: Even the simplest web app has a front end, an application layer, and a database. As the needs of a system evolve, along with the tools available, tech stacks inevitably become messy collages of tools, full of their own languages, technologies, workflows.</p>
       <p>Moreover, high-performance technology organizations from Netflix to Amazon to Uber are increasingly adopting complex Death Star-like systems with thousands of microservices:</p>
-      <p class="article__image"><img src="../assets/img/articles/2021-09-08_the-case-for-developer-experience/images/02_6179433e.jpg" alt="" width="1024" height="450" loading="lazy" decoding="async"></p>
+      <p class="article__image"><img src="../assets/img/articles/2021-09-08_the-case-for-developer-experience/images/02_6179433e.webp" alt="" width="1024" height="450" loading="lazy" decoding="async"></p>
       <p>One implication of all this is that testing software — as a way to determine whether source code violates a specification — makes less and less sense in isolation.</p>
       <p>More broadly, tools that provide automated software assurance to one service at a time become less effective in scope given the messy realities they exist within. For example, static code analyzers that operate by semantically modeling the code assume the worst when checking across network calls, so they are not very useful for reasoning about cross-service interactions.</p>
       <p>But it’s not just in these types of systems where the utility of application-level software quality tools is lost. The minute that code calls any code outside the known system, the scope of code-level solutions becomes greatly diminished.</p>
@@ -121,7 +164,7 @@
       <h2 class="visually-hidden" id="author-profiles-title">About the author</h2>
       <div class="author">
         <div class="author__avatar" aria-hidden="true">
-          <img src="../assets/img/presence-logo.png" alt="" width="64" height="64">
+          <img src="../assets/img/presence-logo.webp" alt="" width="64" height="64" decoding="async" loading="lazy">
         </div>
         <p class="author__bio"><strong>Jean Yang</strong> is the founder and CEO of Akita Software. Previously, she was a professor of Computer Science at Carnegie Mellon University.</p>
         <div class="author__links">
@@ -130,6 +173,18 @@
         </div>
       </div>
     </section>
+    <!-- PRESENCE FOLLOW:START -->
+    <aside class="article-follow" aria-labelledby="follow-presence-title">
+      <p class="article-follow__kicker">Follow PRESENCE</p>
+      <h2 id="follow-presence-title">New stories, without the noise.</h2>
+      <p>Get new PRESENCE stories in Telegram or follow the open RSS feed in your reader.</p>
+      <div class="article-follow__actions">
+        <a class="btn btn--grad" href="https://t.me/presencemedia" target="_blank" rel="noopener noreferrer">Join Telegram</a>
+        <a class="btn btn--quiet" href="../feed.xml">Follow RSS</a>
+      </div>
+    </aside>
+    <!-- PRESENCE FOLLOW:END -->
+
   </article>
 
   <aside class="sidebar">
@@ -146,7 +201,7 @@
   <div class="wrap footer__inner">
     <div class="footer__col footer__brand">
       <a class="brand" href="../index.html">
-        <img class="brand__mark" src="../assets/img/presence-logo.png" alt="">
+        <img class="brand__mark" src="../assets/img/presence-logo.webp" alt="" decoding="async">
         <span class="brand__word">PRESENCE</span>
       </a>
       <p>Understand what is coming, and how it gets built.</p>

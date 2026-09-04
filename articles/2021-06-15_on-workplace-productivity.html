@@ -11,12 +11,53 @@
 <meta property="og:site_name" content="PRESENCE">
 <meta property="og:title" content="On Workplace Productivity">
 <meta property="og:description" content="What does it mean to be productive? At the beginning of the pandemic, when many workers went remote, some managers were tempted to start counting things — whether hours, objects, or other things. But they’re about…">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="On Workplace Productivity">
 <meta name="twitter:description" content="What does it mean to be productive? At the beginning of the pandemic, when many workers went remote, some managers were tempted to start counting things — whether hours, objects, or other things. But they’re about…">
-<link rel="icon" href="../assets/img/presence-social.png" type="image/png">
-<link rel="stylesheet" href="../assets/css/fonts.css?v=6b18cb5c4169e6e4">
-<link rel="stylesheet" href="../assets/css/site.css?v=90def27e97055b19">
+<link rel="icon" href="../assets/img/presence-icon.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/fonts.css?v=2623dfcbb6f68f80">
+<link rel="stylesheet" href="../assets/css/site.css?v=d8459010b634e156">
+<!-- PRESENCE SEO:START -->
+<link rel="canonical" href="https://rudyvale.github.io/presence/articles/2021-06-15_on-workplace-productivity.html">
+<meta property="og:url" content="https://rudyvale.github.io/presence/articles/2021-06-15_on-workplace-productivity.html">
+<meta property="og:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<meta name="twitter:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://rudyvale.github.io/presence/#organization",
+      "name": "PRESENCE",
+      "url": "https://rudyvale.github.io/presence/",
+      "logo": "https://rudyvale.github.io/presence/assets/img/presence-social.png",
+      "sameAs": [
+        "https://t.me/presencemedia"
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://rudyvale.github.io/presence/articles/2021-06-15_on-workplace-productivity.html#article",
+      "headline": "On Workplace Productivity",
+      "description": "What does it mean to be productive? At the beginning of the pandemic, when many workers went remote, some managers were tempted to start counting things — whether hours, objects, or other things. But they’re about…",
+      "mainEntityOfPage": "https://rudyvale.github.io/presence/articles/2021-06-15_on-workplace-productivity.html",
+      "image": [
+        "https://rudyvale.github.io/presence/assets/img/presence-social.png"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Nicole Forsgren"
+      },
+      "publisher": {
+        "@id": "https://rudyvale.github.io/presence/#organization"
+      },
+      "articleSection": "Technology"
+    }
+  ]
+}
+</script>
+<!-- PRESENCE SEO:END -->
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -24,7 +65,7 @@
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand" href="../index.html" aria-label="Presence home">
-      <img class="brand__mark" src="../assets/img/presence-logo.png" alt="">
+      <img class="brand__mark" src="../assets/img/presence-logo.webp" alt="" decoding="async">
       <span class="brand__word">PRESENCE</span>
     </a>
     <nav class="nav__links" id="nav-menu" aria-label="Primary navigation">
@@ -32,6 +73,8 @@
       <a href="../news.html#crypto">Crypto</a>
       <a href="../news.html#technology">Technology</a>
       <a href="../news.html#companies">Companies</a>
+      <a class="nav-search-link" href="../index.html#future-archive">Search</a>
+
       <a href="../about.html">About</a>
       <a href="../contact.html">Contact</a>
     </nav>
@@ -50,7 +93,7 @@
     <p class="article__meta">Nicole Forsgren · 12 min read</p>
 
     <div class="article__body">
-      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/01_12215207.png" alt="" width="1200" height="628" loading="eager" fetchpriority="high" decoding="async"></p>
+      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/01_12215207.webp" alt="" width="1200" height="628" loading="eager" fetchpriority="high" decoding="async"></p>
       <p>What does it mean to be productive? At the start of the pandemic, when many workers shifted remote, some managers were tempted to begin tallying things — whether hours, items, or other things. But they’re about 100 years and two industrial revolutions too late: In the mechanical and electrical revolutions, productivity really was a measure of output, and it helped propel the economy. We made cars, machines, widgets by measuring things successfully this way.</p>
       <p>But most economies are far past that kind of measurement mindset now, with companies and even national economies (measured by GDP) depending on knowledge work and efficiencies from digital technologies to run all our systems, whether healthcare and banking or retail. It’s not only a mindset of efficiency, though, but also one of abundance. Take photography: Doing so used to be relatively costly and more scarce (film, not bits), so the number of pictures taken and printed could count as a productivity measure. But when everyone can take pro-grade photos on their phones, see them right away, and keep them for almost nothing, better productivity is not about taking more pictures. It’s more about the opportunities that open up from having the enormous number of pictures — for example, medicine using photos to diagnose cancer earlier (via machine learning).</p>
       <p>And yet, if we were to measure that camera productivity by output, it wouldn’t tell us anything about consumer well-being let alone GDP. The economist Hal Varian has been trumpeting the horn about this so-called “productivity paradox” for years, as have others who are at the forefront of modern economic research and value creation. But now that our baselines for remote, cloud-based, distributed work have accelerated, the question of how we value work (and the systems powering this work) means we must shift how we measure and think about productivity, finally going beyond the relics of the past.</p>
@@ -69,12 +112,12 @@
       <h2>Remote development, collaboration, and productivity</h2>
       <p>How did knowledge workers (again, primarily developers) do on these measures during the pandemic? COVID-19 and work-from-home lockdowns offered an unprecedented chance to measure how people work in highly uncertain conditions, as well as remote ones. For instance, research I led with GitHub last year showed that teams worked longer hours and pushed more code compared to the year before, across four time zones around the world: UK Time Zone, US Eastern Time Zone, US Pacific Time Zone, and Japan Standard Time Zone.</p>
       <p>Using “push window” — the time between first and last push to a developer’s main branch or repository — as a rough approximation of time spent working, we saw developers across all time zones working longer compared to the previous year when lockdown started, with many developers working 10-20 minutes more per day, and then jumping to 60-80 minutes more per day during June and July 2020.</p>
-      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/02_ce6f2318.jpg" alt="" width="2000" height="926" loading="lazy" decoding="async"></p>
+      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/02_ce6f2318.webp" alt="" width="2000" height="926" loading="lazy" decoding="async"></p>
       <p>In other words: people were working more as the pandemic went on.</p>
       <p>To see if this was just developers spreading their work out while they adjusted to new work routines and schedules, we looked at how much work they did, using the number of pushes as a rough proxy. Again, we saw largely consistent work compared to the previous year across the time zones we studied, with some showing jumps until it leveled out — but we didn’t observe any notable decreases.</p>
       <p>But this work doesn’t happen in isolation; development is about collaboration. And even in a year with our routines upended, developers collaborated more, and faster. One of the major ways that developers collaborate is through pull requests. Merging a pull request involves a group of developers on a project reviewing changes, discussing the code, and sometimes following up with additional commits; finally, the pull request is merged. To proxy this collaborative process, we measured how long it took teams to merge pull requests and compared it to the previous year.</p>
       <p>Open source teams, who have been used to working and collaborating remotely, started merging code 3.5 hours faster in April as lockdowns started happening, and throughout the rest of 2020 ranged from 1-7 hours faster compared to the year before. Even teams working in more traditional workplace settings saw faster collaboration, with initial improvements to merge time in April jumping about one hour, then ranging from two hours slower to five hours faster, with most time periods showing improvement compared to the year before.</p>
-      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/03_f6cd9daf.jpg" alt="" width="2000" height="801" loading="lazy" decoding="async"></p>
+      <p class="article__image"><img src="../assets/img/articles/2021-06-15_on-workplace-productivity/images/03_f6cd9daf.webp" alt="" width="2000" height="801" loading="lazy" decoding="async"></p>
       <p>At a quick glance, one could walk away from this data and declare “productivity is up!”</p>
       <p>However, we also know that continued work under pressure isn’t sustainable. Recent findings from the 2021 Work Trend Index — based on a Microsoft study of more than 30000 people in 31 countries and on an analysis of trillions of productivity and labor signals across Microsoft 365 and LinkedIn — highlighted that “high productivity is masking an exhausted workforce”. The report also noted that over 40% of the global workforce is considering leaving their employer this year.</p>
       <p>If we don’t take seriously the need to rethink how we measure — and thus more effectively aim remedies at — our productivity problem, we won’t have a productivity problem left to worry about.</p>
@@ -98,7 +141,7 @@
       <h2 class="visually-hidden" id="author-profiles-title">About the author</h2>
       <div class="author">
         <div class="author__avatar" aria-hidden="true">
-          <img src="../assets/img/presence-logo.png" alt="" width="64" height="64">
+          <img src="../assets/img/presence-logo.webp" alt="" width="64" height="64" decoding="async" loading="lazy">
         </div>
         <p class="author__bio"><strong>Nicole Forsgren</strong> is the VP, Research &amp; Strategy at GitHub. Author of the award-winning book “Accelerate: The Science of Lean Software and DevOps”, she was also lead investigator on the largest DevOps studies to date.</p>
         <div class="author__links">
@@ -107,6 +150,18 @@
         </div>
       </div>
     </section>
+    <!-- PRESENCE FOLLOW:START -->
+    <aside class="article-follow" aria-labelledby="follow-presence-title">
+      <p class="article-follow__kicker">Follow PRESENCE</p>
+      <h2 id="follow-presence-title">New stories, without the noise.</h2>
+      <p>Get new PRESENCE stories in Telegram or follow the open RSS feed in your reader.</p>
+      <div class="article-follow__actions">
+        <a class="btn btn--grad" href="https://t.me/presencemedia" target="_blank" rel="noopener noreferrer">Join Telegram</a>
+        <a class="btn btn--quiet" href="../feed.xml">Follow RSS</a>
+      </div>
+    </aside>
+    <!-- PRESENCE FOLLOW:END -->
+
   </article>
 
   <aside class="sidebar">
@@ -123,7 +178,7 @@
   <div class="wrap footer__inner">
     <div class="footer__col footer__brand">
       <a class="brand" href="../index.html">
-        <img class="brand__mark" src="../assets/img/presence-logo.png" alt="">
+        <img class="brand__mark" src="../assets/img/presence-logo.webp" alt="" decoding="async">
         <span class="brand__word">PRESENCE</span>
       </a>
       <p>Understand what is coming, and how it gets built.</p>

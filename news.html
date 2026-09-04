@@ -7,9 +7,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>News — PRESENCE</title>
 <meta name="description" content="Technology, crypto, science, and company coverage on Presence.">
-<link rel="icon" href="assets/img/presence-social.png" type="image/png">
-<link rel="stylesheet" href="assets/css/fonts.css?v=6b18cb5c4169e6e4">
-<link rel="stylesheet" href="assets/css/site.css?v=90def27e97055b19">
+<link rel="icon" href="assets/img/presence-icon.png" type="image/png">
+<link rel="stylesheet" href="assets/css/fonts.css?v=2623dfcbb6f68f80">
+<link rel="stylesheet" href="assets/css/site.css?v=d8459010b634e156">
+<!-- PRESENCE SEO:START -->
+<link rel="canonical" href="https://rudyvale.github.io/presence/news.html">
+<meta property="og:url" content="https://rudyvale.github.io/presence/news.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PRESENCE">
+<meta property="og:title" content="News — PRESENCE">
+<meta property="og:description" content="Technology, crypto, science, and company coverage on Presence.">
+<meta property="og:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="News — PRESENCE">
+<meta name="twitter:description" content="Technology, crypto, science, and company coverage on Presence.">
+<meta name="twitter:image" content="https://rudyvale.github.io/presence/assets/img/presence-social.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://rudyvale.github.io/presence/#organization",
+      "name": "PRESENCE",
+      "url": "https://rudyvale.github.io/presence/",
+      "logo": "https://rudyvale.github.io/presence/assets/img/presence-social.png",
+      "sameAs": [
+        "https://t.me/presencemedia"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://rudyvale.github.io/presence/#website",
+      "url": "https://rudyvale.github.io/presence/",
+      "name": "PRESENCE",
+      "publisher": {
+        "@id": "https://rudyvale.github.io/presence/#organization"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://rudyvale.github.io/presence/news.html#webpage",
+      "url": "https://rudyvale.github.io/presence/news.html",
+      "name": "News — PRESENCE",
+      "description": "Technology, crypto, science, and company coverage on Presence.",
+      "isPartOf": {
+        "@id": "https://rudyvale.github.io/presence/#website"
+      },
+      "about": {
+        "@id": "https://rudyvale.github.io/presence/#organization"
+      }
+    }
+  ]
+}
+</script>
+<!-- PRESENCE SEO:END -->
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -17,7 +69,7 @@
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand" href="index.html" aria-label="Presence home">
-      <img class="brand__mark" src="assets/img/presence-logo.png" alt="">
+      <img class="brand__mark" src="assets/img/presence-logo.webp" alt="" decoding="async">
       <span class="brand__word">PRESENCE</span>
     </a>
     <nav class="nav__links" id="nav-menu" aria-label="Primary navigation">
@@ -25,6 +77,8 @@
       <a href="#crypto">Crypto</a>
       <a href="#technology">Technology</a>
       <a href="#companies">Companies</a>
+      <a class="nav-search-link" href="index.html#future-archive">Search</a>
+
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -70,11 +124,17 @@
         <template data-presence-slot="NEWS-FILTERS:END"></template>
       </div>
 
+      <div class="news-search">
+        <label for="news-search">Search headlines and authors</label>
+        <input type="search" id="news-search" data-news-search autocomplete="off" placeholder="Search 135 stories">
+        <span data-news-results aria-live="polite"></span>
+      </div>
+
       <div class="news-grid" id="news-grid">
         <template data-presence-slot="NEWS-CARDS:START"></template>
         <article class="news-card news-card--crypto news-card--with-image">
           <a class="news-card__media" href="articles/2020-01-03_credible-neutrality-guiding-principle.html" aria-label="Read Credible Neutrality As A Guiding Principle">
-            <img src="assets/img/articles/2020-01-03_credible-neutrality-guiding-principle/vitalik-buterin.png" alt="Vitalik Buterin speaking on stage" width="1280" height="720" decoding="async">
+            <img src="assets/img/articles/2020-01-03_credible-neutrality-guiding-principle/vitalik-buterin.webp" alt="Vitalik Buterin speaking on stage" width="1280" height="720" decoding="async" loading="lazy">
           </a>
           <div class="news-card__meta">
             <span class="news-card__category">Crypto</span>
@@ -1845,7 +1905,7 @@
   <div class="wrap footer__inner">
     <div class="footer__col footer__brand">
       <a class="brand" href="index.html">
-        <img class="brand__mark" src="assets/img/presence-logo.png" alt="">
+        <img class="brand__mark" src="assets/img/presence-logo.webp" alt="" decoding="async">
         <span class="brand__word">PRESENCE</span>
       </a>
       <p>Understand what is coming, and how it gets built.</p>
@@ -1875,7 +1935,7 @@
 </footer>
 
 <script src="assets/js/site.js?v=5c057580ed588905"></script>
-<script src="assets/js/news-data.js?v=b0541f526e31d172"></script>
-<script src="assets/js/news.js?v=f538eba29c64052f"></script>
+<script src="assets/js/news-data.js?v=7bf590b59bf1226d"></script>
+<script src="assets/js/news.js?v=5858982f0417b705"></script>
 </body>
 </html>

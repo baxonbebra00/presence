@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+"""Static acceptance checks for the PRESENCE GitHub Pages build."""
+
+from __future__ import annotations
+
+from html.parser import HTMLParser
+import json
+from pathlib import Path
+import re
+import sys
+from urllib.parse import urlsplit
+import xml.etree.ElementTree as ET
+
+from PIL import Image
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE_URL = "https://rudyvale.github.io/presence"
+
+
+class ReferenceParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.references: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        for name, value in attrs:
+            if value and name in {"src", "href"}:
+                self.references.append(value)
+
+
+def main() -> int:
+    errors: list[str] = []
+    pages = sorted(ROOT.rglob("*.html"))
+    article_pages = sorted((ROOT / "articles").glob("*.html"))
+    expected_sitemap = {
+        f"{BASE_URL}/" if page.name == "index.html" else f"{BASE_URL}/{page.relative_to(ROOT).as_posix()}"
+        for page in pages
+        if page.name != "404.html"
+    }
+
+    for page in pages:
+        document = page.read_text(encoding="utf-8")
+        relative = page.relative_to(ROOT).as_posix()
+        if document.count('<link rel="canonical"') != 1:
+            errors.append(f"{relative}: canonical count is not 1")
+        schemas = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', document, re.DOTALL)
+        if len(schemas) != 1:
+            errors.append(f"{relative}: JSON-LD count is not 1")
+        else:
+            try:
+                json.loads(schemas[0])
+            except json.JSONDecodeError as exc:
+                errors.append(f"{relative}: invalid JSON-LD ({exc})")
+        if document.count('class="nav-search-link"') != 1:
+            errors.append(f"{relative}: search navigation link count is not 1")
+        if page.parent.name == "articles" and document.count("PRESENCE FOLLOW:START") != 1:
+            errors.append(f"{relative}: article follow block count is not 1")
+
+        parser = ReferenceParser()
+        parser.feed(document)
+        for reference in parser.references:
+            parsed = urlsplit(reference)
+            if parsed.scheme or reference.startswith(("#", "//")):
+                continue
+            clean = parsed.path
+            if not clean:
+                continue
+            target = (page.parent / clean).resolve()
+            try:
+                target.relative_to(ROOT)
+            except ValueError:
+                errors.append(f"{relative}: reference escapes site root: {reference}")
+                continue
+            if not target.exists():
+                errors.append(f"{relative}: missing reference: {reference}")
+
+    site_text = "\n".join(page.read_text(encoding="utf-8") for page in pages)
+    removed_mailbox = "contact" + "@" + "presence.media"
+    if removed_mailbox in site_text or "mailto:" in site_text:
+        errors.append("email address or mailto remains in HTML")
+
+    sitemap = ET.parse(ROOT / "sitemap.xml")
+    namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    actual_sitemap = {node.text or "" for node in sitemap.findall("sm:url/sm:loc", namespace)}
+    if actual_sitemap != expected_sitemap:
+        errors.append(
+            f"sitemap mismatch: expected {len(expected_sitemap)}, found {len(actual_sitemap)}"
+        )
+
+    ET.parse(ROOT / "feed.xml")
+    robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+    if f"Sitemap: {BASE_URL}/sitemap.xml" not in robots:
+        errors.append("robots.txt does not advertise the sitemap")
+
+    for image_path in (ROOT / "assets" / "img").rglob("*.webp"):
+        try:
+            with Image.open(image_path) as image:
+                image.verify()
+        except Exception as exc:  # noqa: BLE001 - acceptance should report every decoder failure
+            errors.append(f"{image_path.relative_to(ROOT).as_posix()}: invalid WebP ({exc})")
+
+    checks = {
+        "HTML pages": len(pages),
+        "Article pages": len(article_pages),
+        "Sitemap URLs": len(actual_sitemap),
+        "WebP assets": len(list((ROOT / "assets" / "img").rglob("*.webp"))),
+        "Errors": len(errors),
+    }
+    for label, value in checks.items():
+        print(f"{label}: {value}")
+    for error in errors:
+        print(f"ERROR: {error}")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

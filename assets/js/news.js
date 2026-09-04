@@ -3,9 +3,11 @@
   const grid = document.getElementById("news-grid");
   const empty = document.getElementById("news-empty");
   const filters = Array.from(document.querySelectorAll("[data-news-filter]"));
+  const search = document.querySelector("[data-news-search]");
+  const results = document.querySelector("[data-news-results]");
   const categories = new Set(["all", "crypto", "technology", "companies"]);
 
-  if (!stories || !stories.length || !grid || !empty || !filters.length) return;
+  if (!stories || !stories.length || !grid || !empty || !filters.length || !(search instanceof HTMLInputElement)) return;
 
   const categoryLabel = (category) => ({
     crypto: "Crypto",
@@ -75,6 +77,7 @@
       image.alt = story.imageAlt || "";
       image.width = 1280;
       image.height = 720;
+      image.loading = "lazy";
       image.decoding = "async";
       media.append(image);
       article.append(media);
@@ -128,14 +131,27 @@
     });
   };
 
+  const normalizeSearch = (value) => value.trim().toLocaleLowerCase();
+
   const render = (requestedCategory) => {
     const category = categories.has(requestedCategory) ? requestedCategory : "all";
-    const visibleStories = category === "all"
+    const categoryStories = category === "all"
       ? orderedStories
       : orderedStories.filter((story) => story.category === category);
+    const query = normalizeSearch(search.value);
+    const visibleStories = query
+      ? categoryStories.filter((story) => [story.title, story.author, story.summary]
+        .some((value) => normalizeSearch(String(value || "")).includes(query)))
+      : categoryStories;
 
     grid.replaceChildren(...visibleStories.map(makeCard));
     empty.hidden = visibleStories.length > 0;
+    empty.textContent = query
+      ? "No stories match this search."
+      : "No stories in this section yet.";
+    if (results) {
+      results.textContent = `${visibleStories.length} ${visibleStories.length === 1 ? "story" : "stories"}`;
+    }
 
     filters.forEach((button) => {
       const active = button.dataset.newsFilter === category;
@@ -155,6 +171,7 @@
   });
 
   window.addEventListener("hashchange", () => render(categoryFromHash()));
+  search.addEventListener("input", () => render(categoryFromHash()));
   updateCounts();
   render(categoryFromHash());
 })();
