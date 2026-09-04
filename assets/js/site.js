@@ -107,13 +107,16 @@
     ".article__cat",
     ".article__title",
     ".article__meta",
+    ".article__hero-media",
     ".article__image",
     ".article__body h2",
     ".article__body blockquote",
     ".article__callout",
     ".article__matrix",
     ".author",
-    ".sidebar"
+    ".sidebar",
+    ".contact-intro",
+    ".contact-form"
   ].join(",");
 
   const motionRoot = document.documentElement;
@@ -314,6 +317,13 @@
       : null
   );
 
+  const safeStoryImage = (value) => (
+    typeof value === "string" &&
+    /^assets\/img\/articles\/\d{4}-\d{2}-\d{2}_[a-z0-9]+(?:-[a-z0-9]+)*\/[a-z0-9]+(?:-[a-z0-9]+)*\.(?:avif|jpe?g|png|webp)$/.test(value)
+      ? value
+      : null
+  );
+
   const safeReadingTime = (value) => {
     const readingTime = cleanText(value, 32);
     const match = readingTime && /^([1-9]\d*) min read$/.exec(readingTime);
@@ -330,6 +340,8 @@
     const date = safePublicationDate(cleanText(story.date, 10));
     const readingTime = safeReadingTime(story.readingTime);
     const url = safeStoryUrl(story.url);
+    const image = safeStoryImage(story.image);
+    const imageAlt = image ? cleanText(story.imageAlt, 300) : null;
     const featuredRank = Number.isSafeInteger(story.featuredRank) &&
       story.featuredRank >= 1 && story.featuredRank <= 100
         ? story.featuredRank
@@ -347,6 +359,8 @@
       date,
       readingTime,
       url,
+      image,
+      imageAlt,
       featuredRank
     });
   };
@@ -405,6 +419,7 @@
     const featuredRows = featured.map((story) => {
       const article = document.createElement("article");
       article.className = "featured-row";
+      if (story.image) article.classList.add("featured-row--with-image");
 
       const main = document.createElement("div");
       main.className = "featured-row__main";
@@ -413,8 +428,27 @@
       main.append(heading);
       appendStoryMeta(main, story);
 
-      article.append(main);
-      appendText(article, "p", "featured-row__summary", story.summary);
+      if (story.image) {
+        appendText(main, "p", "featured-row__summary", story.summary);
+
+        const media = document.createElement("a");
+        media.className = "featured-row__media";
+        media.href = story.url;
+        media.setAttribute("aria-label", `Read ${story.title}`);
+
+        const image = document.createElement("img");
+        image.src = story.image;
+        image.alt = story.imageAlt || "";
+        image.width = 1280;
+        image.height = 720;
+        image.decoding = "async";
+        image.fetchPriority = "high";
+        media.append(image);
+        article.append(main, media);
+      } else {
+        article.append(main);
+        appendText(article, "p", "featured-row__summary", story.summary);
+      }
       return article;
     });
 

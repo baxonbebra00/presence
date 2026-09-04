@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>News — PRESENCE</title>
 <meta name="description" content="Technology, crypto, science, and company coverage on Presence.">
-<link rel="icon" href="assets/img/presence-mark.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/presence-social.png" type="image/png">
 <link rel="stylesheet" href="assets/css/fonts.css?v=6b18cb5c4169e6e4">
-<link rel="stylesheet" href="assets/css/site.css?v=28583dabaaf41a3e">
+<link rel="stylesheet" href="assets/css/site.css?v=90def27e97055b19">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -17,7 +17,7 @@
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand" href="index.html" aria-label="Presence home">
-      <img class="brand__mark" src="assets/img/presence-mark.svg" alt="">
+      <img class="brand__mark" src="assets/img/presence-logo.png" alt="">
       <span class="brand__word">PRESENCE</span>
     </a>
     <nav class="nav__links" id="nav-menu" aria-label="Primary navigation">
@@ -26,6 +26,7 @@
       <a href="#technology">Technology</a>
       <a href="#companies">Companies</a>
       <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav__cta">
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
@@ -71,7 +72,10 @@
 
       <div class="news-grid" id="news-grid">
         <template data-presence-slot="NEWS-CARDS:START"></template>
-        <article class="news-card news-card--crypto">
+        <article class="news-card news-card--crypto news-card--with-image">
+          <a class="news-card__media" href="articles/2020-01-03_credible-neutrality-guiding-principle.html" aria-label="Read Credible Neutrality As A Guiding Principle">
+            <img src="assets/img/articles/2020-01-03_credible-neutrality-guiding-principle/vitalik-buterin.png" alt="Vitalik Buterin speaking on stage" width="1280" height="720" decoding="async">
+          </a>
           <div class="news-card__meta">
             <span class="news-card__category">Crypto</span>
             <span class="news-card__type">ARTICLE</span>
@@ -1841,7 +1845,7 @@
   <div class="wrap footer__inner">
     <div class="footer__col footer__brand">
       <a class="brand" href="index.html">
-        <img class="brand__mark" src="assets/img/presence-mark.svg" alt="">
+        <img class="brand__mark" src="assets/img/presence-logo.png" alt="">
         <span class="brand__word">PRESENCE</span>
       </a>
       <p>Understand what is coming, and how it gets built.</p>
@@ -1859,6 +1863,8 @@
       <h4>PRESENCE</h4>
       <ul>
         <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="https://t.me/presencemedia" target="_blank" rel="noopener noreferrer">Telegram</a></li>
         <li><a href="feed.xml">RSS</a></li>
       </ul>
     </div>
@@ -1868,8 +1874,8 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=c29917983bb419d6"></script>
-<script src="assets/js/news-data.js?v=479227b6b47cc199"></script>
-<script src="assets/js/news.js?v=e4005d09d6a5f168"></script>
+<script src="assets/js/site.js?v=5c057580ed588905"></script>
+<script src="assets/js/news-data.js?v=b0541f526e31d172"></script>
+<script src="assets/js/news.js?v=f538eba29c64052f"></script>
 </body>
 </html>

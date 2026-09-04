@@ -63,6 +63,23 @@
     const article = document.createElement("article");
     article.className = `news-card news-card--${story.category}`;
 
+    if (story.image) {
+      article.classList.add("news-card--with-image");
+      const media = document.createElement("a");
+      media.className = "news-card__media";
+      media.href = story.url;
+      media.setAttribute("aria-label", `Read ${story.title}`);
+
+      const image = document.createElement("img");
+      image.src = story.image;
+      image.alt = story.imageAlt || "";
+      image.width = 1280;
+      image.height = 720;
+      image.decoding = "async";
+      media.append(image);
+      article.append(media);
+    }
+
     const meta = document.createElement("div");
     meta.className = "news-card__meta";
     appendText(meta, "span", "news-card__category", categoryLabel(story.category));
